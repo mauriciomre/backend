@@ -1,31 +1,30 @@
 import express from "express";
-import ProductManager from "./components/app.js";
+import routerProducts from "./routes/product.js";
+import { fileURLToPath } from "url";
+import { dirname } from "path";
+//import multer from "multer";
+
+//import { create } from "express-handlebars";
 
 const app = express();
+const PORT = 8080;
 
+//Middlewares
+app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+//app.engine("handlebars", engine());
+//app.set("view engine", "handlebars");
+//app.set("views", path.resolve(__dirname, "./views"));
 
-const manager = new ProductManager();
+//Routes
+app.use("/api/products", routerProducts);
+// app.get("/static", (req, res) => {
+//     res.render("home", {
+//         titulo: "Coder",
+//         mensaje: "mundo",
+//     });
+// });
 
-const readProducts = manager.readProducts();
-
-app.get("/products", async (req, res) => {
-    let limit = parseInt(req.query.limit);
-    if (!limit) return res.send(await readProducts);
-    let allProducts = await readProducts;
-    let productLimit = allProducts.slice(0, limit);
-    res.send(productLimit);
+app.listen(PORT, () => {
+    console.log(`Mi nuevo servidor en el puerto ${PORT}`);
 });
-
-app.get("/products/:id", async (req, res) => {
-    let id = parseInt(req.params.id);
-    let allProducts = await readProducts;
-    let productById = allProducts.find((product) => product.id === id);
-    res.send(productById);
-});
-
-const PORT = 5000;
-const server = app.listen(PORT, () => {
-    console.log(`Mi nuevo servidor en el puerto ${server.address().port}`);
-});
-server.on("error", (error) => console.log(`Se produjo un error: \n${error}`));
