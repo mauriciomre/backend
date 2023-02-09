@@ -21,12 +21,12 @@ routerProduct.post("/", async (req, res) => {
 });
 
 routerProduct.delete("/:pid", async (req, res) => {
-    let message = await productManager.deleteProductById(req.params.id);
+    let message = await productManager.deleteProductById(req.params.pid);
     res.send(message);
 });
 
 routerProduct.put("/:pid", async (req, res) => {
-    let message = await productManager.updateProduct(req.params.id);
+    let message = await productManager.updateProduct(req.params.pid, req.body);
     res.send(message);
 });
 

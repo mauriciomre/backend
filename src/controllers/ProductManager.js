@@ -45,10 +45,10 @@ class ProductManager {
         let productsFilter = productsArray.filter((element) => element.id !== parseInt(id));
 
         if (productsFilter.length == productsArray.length) {
-            console.log("ID no encontrado");
+            return "ID no encontrado";
         } else {
             await fs.writeFile(this.path, JSON.stringify(productsFilter));
-            console.log(`Producto con ID ${id} eliminado satisfactoriamente!`);
+            return `Producto con ID ${id} eliminado satisfactoriamente!`;
         }
     };
 
@@ -57,13 +57,13 @@ class ProductManager {
         if (productsArray.some((element) => element.id === parseInt(id))) {
             let index = productsArray.findIndex((product) => product.id === parseInt(id));
 
-            productsArray[index].title = title;
-            productsArray[index].category = category;
-            productsArray[index].description = description;
-            productsArray[index].price = price;
-            productsArray[index].thumbnail = thumbnail;
-            productsArray[index].code = code;
-            productsArray[index].stock = stock;
+            productsArray[index].title = title ?? productsArray[index].title;
+            productsArray[index].category = category ?? productsArray[index].category;
+            productsArray[index].description = description ?? productsArray[index].description;
+            productsArray[index].price = price ?? productsArray[index].price;
+            productsArray[index].thumbnail = thumbnail ?? productsArray[index].thumbnail;
+            productsArray[index].code = code ?? productsArray[index].code;
+            productsArray[index].stock = stock ?? productsArray[index].stock;
 
             await fs.writeFile(this.path, JSON.stringify(productsArray));
             return `Producto con ID ${id} modificado satisfactoriamente!`;
