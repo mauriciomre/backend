@@ -1,5 +1,6 @@
 import express from "express";
 import routerProducts from "./routes/product.js";
+import routerCarts from "./routes/carts.js";
 import { fileURLToPath } from "url";
 import { dirname } from "path";
 //import multer from "multer";
@@ -18,6 +19,7 @@ app.use(express.urlencoded({ extended: true }));
 
 //Routes
 app.use("/api/products", routerProducts);
+app.use("/api/carts", routerCarts);
 // app.get("/static", (req, res) => {
 //     res.render("home", {
 //         titulo: "Coder",

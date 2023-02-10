@@ -3,20 +3,22 @@ import { promises as fs } from "fs";
 class ProductManager {
     constructor(path) {
         this.path = path;
-        this.products = [];
         this.status = true;
     }
 
-    static id = 0;
+    static id = 1;
 
-    addProduct = async (title, category, description, price, thumbnail, code, stock) => {
-        ProductManager.id++;
+    addProduct = async (product) => {
+        let productsArray = await this.readProducts();
 
-        const product = { id: ProductManager.id, title, category, description, price, thumbnail, code, stock };
+        while (productsArray.some((product) => product.id === ProductManager.id)) {
+            ProductManager.id++;
+        }
+        product.id = ProductManager.id;
+        productsArray.push(product);
 
-        this.products.push(product);
-
-        await fs.writeFile(this.path, JSON.stringify(this.products));
+        await fs.writeFile(this.path, JSON.stringify(productsArray));
+        return productsArray;
     };
 
     readProducts = async () => {
