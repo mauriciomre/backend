@@ -35,23 +35,28 @@ class CartManager {
     };
 
     addToCart = async (cid, pid) => {
-        let cartsArray = await this.readCarts();
-        let productsArray = await productManager.readProducts();
-        let foundCartIndex = cartsArray.findIndex((element) => element.id == parseInt(cid));
-        let foundProduct = productsArray.find((element) => element.id == parseInt(pid));
-        if (!foundCartIndex) {
+        const carts = await this.readCarts();
+        const cartIndex = carts.findIndex((cart) => cart.id === parseInt(cid, 10));
+        if (cartIndex === -1) {
             return `Cart ${cid} not found`;
         }
 
-        if (!foundProduct) {
+        const products = await productManager.readProducts();
+        const product = products.find((product) => product.id === parseInt(pid, 10));
+        if (!product) {
             return `Product ${pid} not found`;
         }
 
-        if (foundCartIndex && foundProduct) {
-            cartsArray[foundCartIndex].products.push({ product: foundProduct.id });
-            await fs.writeFile(this.path, JSON.stringify(cartsArray));
-            return `Producto ${pid} agregado al carrito ${cid}`;
+        const cart = carts[cartIndex];
+        const productIndex = cart.products.findIndex((item) => item.id === product.id);
+        if (productIndex === -1) {
+            cart.products.push({ id: product.id, quantity: 1 });
+        } else {
+            cart.products[productIndex].quantity += 1;
         }
+
+        await fs.writeFile(this.path, JSON.stringify(carts));
+        return `Product ID: ${pid} added to cart ID: ${cid}`;
     };
 }
 
