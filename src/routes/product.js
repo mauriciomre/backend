@@ -1,8 +1,13 @@
 import { Router } from "express";
 import ProductManager from "../controllers/ProductManager.js";
+//import { io } from "../index.js";
 
 const productManager = new ProductManager("src/models/products.json");
 const routerProduct = Router();
+
+// io.on("datos-de-producto", (nuevoProducto) => {
+//     console.log("Producto recibido en product router", nuevoProducto);
+// });
 
 routerProduct.get("/", async (req, res) => {
     const { limit } = req.query;

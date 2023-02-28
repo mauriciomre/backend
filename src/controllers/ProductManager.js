@@ -45,13 +45,10 @@ class ProductManager {
     deleteProductById = async (id) => {
         let productsArray = await this.readProducts();
         let productsFilter = productsArray.filter((element) => element.id !== parseInt(id));
+        await fs.writeFile(this.path, JSON.stringify(productsFilter));
 
-        if (productsFilter.length == productsArray.length) {
-            return "ID no encontrado";
-        } else {
-            await fs.writeFile(this.path, JSON.stringify(productsFilter));
-            return `Producto con ID ${id} eliminado satisfactoriamente!`;
-        }
+        console.log(productsFilter);
+        return productsFilter;
     };
 
     updateProduct = async (id, { title, category, description, price, thumbnail, code, stock }) => {

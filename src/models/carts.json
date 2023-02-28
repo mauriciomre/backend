@@ -1,1 +1,41 @@
-[{"id":1,"products":[{"id":9,"quantity":7},{"id":10,"quantity":6},{"id":11,"quantity":3}]}]
+[
+    {
+        "id": 1,
+        "products": [
+            {
+                "id": 9,
+                "quantity": 2
+            },
+            {
+                "id": 10,
+                "quantity": 3
+            }
+        ]
+    },
+    {
+        "id": 2,
+        "products": [
+            {
+                "id": 10,
+                "quantity": 1
+            },
+            {
+                "id": 11,
+                "quantity": 1
+            }
+        ]
+    },
+    {
+        "id": 3,
+        "products": [
+            {
+                "id": 11,
+                "quantity": 1
+            },
+            {
+                "id": 12,
+                "quantity": 3
+            }
+        ]
+    }
+]
