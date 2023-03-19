@@ -1,3 +1,5 @@
+import dotenv from "dotenv";
+dotenv.config();
 import express from "express";
 import routerProducts from "./routes/product.js";
 import routerCarts from "./routes/carts.js";
@@ -8,10 +10,15 @@ import { engine } from "express-handlebars";
 import * as path from "path";
 import { Server } from "socket.io";
 import ProductManager from "./controllers/ProductManager.js";
+import { MongoDBMessageModel } from "./dao/MongoDB/models/Message.js";
+//import { getManagerMessages } from "./dao/daoManager.js";
 //import multer from "multer";
 //import { create } from "express-handlebars";
 
 const productManager = new ProductManager("src/models/products.json");
+//const messageManager = getManagerMessages();
+
+const messageManager = new MongoDBMessageModel();
 
 const app = express();
 const PORT = 8080;
@@ -38,6 +45,16 @@ app.use("/", routerHbs);
 
 io.on("connection", (socket) => {
     console.log("Un cliente se ha conectado");
+
+    socket.on("newMessage", (info) => {
+        messageManager.addElements([info]).then(() => {
+            console.log(`El mensaje se guardo en la DB correctamente`);
+            messageManager.getElements((dataMessages) => {
+                console.log(dataMessages);
+                io.emit("allMessages", dataMessages);
+            });
+        });
+    });
 
     socket.on("eliminar-producto", (eliminarId) => {
         productManager.deleteProductById(eliminarId).then((productsArray) => {

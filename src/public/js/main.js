@@ -1,6 +1,29 @@
 const socket = io();
 
-// Obtener referencia al formulario
+// CHAT
+const messageList = document.getElementById("messageList");
+
+const sendMessage = (msg) => {
+    const data = { name: "Nombre", email: "hola@hola6.com", message: msg };
+    socket.emit("newMessage", data);
+};
+
+socket.on("allMessages", async (dataMessages) => {
+    messageList.innerHTML = "";
+    await dataMessages.forEach((dataMessage) => {
+        messageList.innerHTML += `
+        <div class="d-flex flex-row justify-content-start mb-4">
+                <p class="fw-bold mb-0">${dataMessage.name}</p>
+                alt="avatar 1" style="width: 45px; height: 100%;">
+                <div class="p-3 ms-3" style="border-radius: 15px; background-color: rgba(57, 192, 237,.2);">
+                <p class="small mb-0">${dataMessage.message}</p>
+            </div>
+        </div>        
+        `;
+    });
+});
+
+// PRODUCTOS
 const formProducto = document.getElementById("form-producto");
 const listaProductos = document.getElementById("lista-productos");
 

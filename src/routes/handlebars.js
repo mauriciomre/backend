@@ -14,4 +14,8 @@ routerHbs.get("/realtimeproducts", async (req, res) => {
     res.render("realtimeProducts", { products });
 });
 
+routerHbs.get("/chat", async (req, res) => {
+    res.render("chat");
+});
+
 export default routerHbs;
