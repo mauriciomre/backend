@@ -18,4 +18,8 @@ routerHbs.get("/chat", async (req, res) => {
     res.render("chat");
 });
 
+routerHbs.get("/login", async (req, res) => {
+    res.render("login");
+});
+
 export default routerHbs;

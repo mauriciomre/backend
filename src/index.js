@@ -11,14 +11,16 @@ import * as path from "path";
 import { Server } from "socket.io";
 import ProductManager from "./controllers/ProductManager.js";
 import { MongoDBMessageModel } from "./dao/MongoDB/models/Message.js";
-//import { getManagerMessages } from "./dao/daoManager.js";
+import { getMessagesManager } from "./dao/daoManager.js";
+//import { MongoDBUserModel } from "./dao/MongoDB/models/User.js";
 //import multer from "multer";
 //import { create } from "express-handlebars";
 
 const productManager = new ProductManager("src/models/products.json");
-//const messageManager = getManagerMessages();
 
-const messageManager = new MongoDBMessageModel();
+const messageManager = new (await getMessagesManager()).MongoDBMessageModel();
+
+//const userManager = new MongoDBUserModel();
 
 const app = express();
 const PORT = 8080;
@@ -43,15 +45,19 @@ app.use("/api/carts", routerCarts);
 app.use("/", express.static(__dirname + "/public"));
 app.use("/", routerHbs);
 
-io.on("connection", (socket) => {
+io.on("connection", async (socket) => {
     console.log("Un cliente se ha conectado");
 
-    socket.on("newMessage", (info) => {
+    // socket.on("tryLogin", (user) => {
+    // });
+
+    socket.on("newMessage", async (info) => {
         messageManager.addElements([info]).then(() => {
             console.log(`El mensaje se guardo en la DB correctamente`);
-            messageManager.getElements((dataMessages) => {
-                console.log(dataMessages);
-                io.emit("allMessages", dataMessages);
+
+            messageManager.getElements().then((allMessages) => {
+                console.log(`TODOS LOS MENSAJES ${allMessages}`);
+                io.emit("allMessages", allMessages);
             });
         });
     });

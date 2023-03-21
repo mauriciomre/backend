@@ -1,5 +1,14 @@
 const socket = io();
 
+// LOGIN
+const login = (user) => {
+    console.log(`Intento de login con los siguientes datos:
+    email: ${user.email}
+    password: ${user.password}`);
+
+    socket.emit("tryLogin", user);
+};
+
 // CHAT
 const messageList = document.getElementById("messageList");
 
@@ -12,13 +21,17 @@ socket.on("allMessages", async (dataMessages) => {
     messageList.innerHTML = "";
     await dataMessages.forEach((dataMessage) => {
         messageList.innerHTML += `
-        <div class="d-flex flex-row justify-content-start mb-4">
-                <p class="fw-bold mb-0">${dataMessage.name}</p>
-                alt="avatar 1" style="width: 45px; height: 100%;">
-                <div class="p-3 ms-3" style="border-radius: 15px; background-color: rgba(57, 192, 237,.2);">
-                <p class="small mb-0">${dataMessage.message}</p>
+        <div class="d-flex justify-content-between">
+        <p class="small mb-1 text-muted">23 Jan 2:05 pm</p>
+        <p class="small mb-1">${dataMessage.name}</p>
+        </div>
+        <div class="d-flex flex-row justify-content-end mb-4">
+            <div class="p-3 me-3 border" style="border-radius: 15px; background-color: #fbfbfb;">
+            <p class="small mb-0">${dataMessage.message}</p>
             </div>
-        </div>        
+        <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava2-bg.webp"
+        alt="avatar 1" style="width: 45px; height: 100%;">
+        </div>      
         `;
     });
 });
