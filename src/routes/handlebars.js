@@ -7,7 +7,7 @@ import { messageManager } from "../index.js";
 const routerHbs = Router();
 
 routerHbs.get("/", async (req, res) => {
-    const products = await productManager.getProducts();
+    const products = await productManager.getElements();
     res.render("home", { products });
 });
 

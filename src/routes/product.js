@@ -1,14 +1,9 @@
 import { Router } from "express";
 import ProductManager from "../controllers/ProductManager.js";
 import { productManager } from "../index.js";
-//import { io } from "../index.js";
 
 //const productManager = new ProductManager("src/models/products.json");
 const routerProduct = Router();
-
-// io.on("datos-de-producto", (nuevoProducto) => {
-//     console.log("Producto recibido en product router", nuevoProducto);
-// });
 
 routerProduct.get("/", async (req, res) => {
     const { limit } = req.query;
@@ -22,7 +17,7 @@ routerProduct.get("/:pid", async (req, res) => {
 });
 
 routerProduct.post("/", async (req, res) => {
-    let message = await productManager.addElement(req.body);
+    let message = await productManager.addElements(req.body);
     res.send(message);
 });
 
@@ -32,8 +27,8 @@ routerProduct.delete("/:pid", async (req, res) => {
 });
 
 routerProduct.put("/:pid", async (req, res) => {
-    let message = await productManager.updateElement(req.params.pid, req.body);
-    res.send(message);
+    let updatedProduct = await productManager.updateElement(req.params.pid, req.body);
+    res.send(updatedProduct);
 });
 
 export default routerProduct;

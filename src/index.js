@@ -12,6 +12,7 @@ import { Server } from "socket.io";
 import ProductManager from "./controllers/ProductManager.js";
 import { getMessagesManager } from "./dao/daoManager.js";
 import { getProductsManager } from "./dao/daoManager.js";
+import { getCartsManager } from "./dao/daoManager.js";
 //import { MongoDBUserModel } from "./dao/MongoDB/models/User.js";
 //import multer from "multer";
 //import { create } from "express-handlebars";
@@ -20,6 +21,7 @@ import { getProductsManager } from "./dao/daoManager.js";
 
 export const productManager = new (await getProductsManager()).MongoDBProductModel();
 export const messageManager = new (await getMessagesManager()).MongoDBMessageModel();
+export const cartManager = new (await getCartsManager()).MongoDBCartModel();
 
 //const userManager = new MongoDBUserModel();
 

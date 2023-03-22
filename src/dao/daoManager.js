@@ -14,3 +14,12 @@ export const getProductsManager = async () => {
 
     return modelProduct;
 };
+
+export const getCartsManager = async () => {
+    const modelCart =
+        process.env.SELECTEDBDD == 1
+            ? await import("./MongoDB/models/Cart.js")
+            : await import("./Postgresql/models/Cart.js");
+
+    return modelCart;
+};

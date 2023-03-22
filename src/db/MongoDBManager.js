@@ -54,8 +54,9 @@ export class MongoDBManager {
     async updateElement(id, info) {
         this.#setConnection();
         try {
-            const message = await this.model.findByIdAndUpdate(id, info);
-            return message;
+            await this.model.findByIdAndUpdate(id, info);
+            const updatedElement = this.getElementById(id);
+            return updatedElement;
         } catch (error) {
             console.log("Error en update de elemento en MongoDB", error);
         }
