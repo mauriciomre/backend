@@ -11,16 +11,17 @@ const routerCart = Router();
 // });
 
 routerCart.get("/:cid", async (req, res) => {
-    const cart = await cartManager.getCartById(req.params.cid);
+    const cart = await cartManager.getElementById(req.params.cid);
     res.send(JSON.stringify(cart));
 });
 
 routerCart.post("/", async (req, res) => {
-    let message = await cartManager.addCart();
+    let message = await cartManager.addElement();
     res.send(message);
 });
 
 routerCart.post("/:cid/product/:pid", async (req, res) => {
+    //crear metodo propio para agregar producto al carrito
     let message = await cartManager.addToCart(req.params.cid, req.params.pid);
     res.send(message);
 });

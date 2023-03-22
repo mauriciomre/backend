@@ -66,8 +66,8 @@
                                     <span>Stock: {{this.stock}}</span>
                                 </div>
                                 <div class="">
-                                    <i class="btn btn-danger bi bi-trash-fill"
-                                        onclick="eliminarProducto({{this.id}})">ELIMINAR</i>
+                                    <i class="btn btn-danger bi bi-trash-fill" data-id="{{this._id}}"
+                                        onclick="deleteProduct(this)">ELIMINAR</i>
                                 </div>
                             </div>
                         </div>

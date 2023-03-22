@@ -10,15 +10,16 @@ import { engine } from "express-handlebars";
 import * as path from "path";
 import { Server } from "socket.io";
 import ProductManager from "./controllers/ProductManager.js";
-import { MongoDBMessageModel } from "./dao/MongoDB/models/Message.js";
 import { getMessagesManager } from "./dao/daoManager.js";
+import { getProductsManager } from "./dao/daoManager.js";
 //import { MongoDBUserModel } from "./dao/MongoDB/models/User.js";
 //import multer from "multer";
 //import { create } from "express-handlebars";
 
-const productManager = new ProductManager("src/models/products.json");
+//const productManager = new ProductManager("src/models/products.json");
 
-const messageManager = new (await getMessagesManager()).MongoDBMessageModel();
+export const productManager = new (await getProductsManager()).MongoDBProductModel();
+export const messageManager = new (await getMessagesManager()).MongoDBMessageModel();
 
 //const userManager = new MongoDBUserModel();
 
@@ -56,21 +57,22 @@ io.on("connection", async (socket) => {
             console.log(`El mensaje se guardo en la DB correctamente`);
 
             messageManager.getElements().then((allMessages) => {
-                console.log(`TODOS LOS MENSAJES ${allMessages}`);
+                //console.log(`TODOS LOS MENSAJES ${allMessages}`);
                 io.emit("allMessages", allMessages);
             });
         });
     });
 
-    socket.on("eliminar-producto", (eliminarId) => {
-        productManager.deleteProductById(eliminarId).then((productsArray) => {
-            io.emit("todos-los-productos", productsArray);
+    socket.on("newProduct", (product) => {
+        productManager.addElements(product).then((products) => {
+            io.emit("allProducts", products);
         });
     });
 
-    socket.on("nuevo-producto", (nuevoProducto) => {
-        productManager.addProduct(nuevoProducto).then((productsArray) => {
-            io.emit("todos-los-productos", productsArray);
+    socket.on("deleteProduct", (id) => {
+        //const id = mongoose.Types.ObjectId(idString);
+        productManager.deleteElement(id).then((products) => {
+            io.emit("allProducts", products);
         });
     });
 });

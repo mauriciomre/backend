@@ -40,7 +40,7 @@ socket.on("allMessages", async (dataMessages) => {
 const formProducto = document.getElementById("form-producto");
 const listaProductos = document.getElementById("lista-productos");
 
-formProducto.addEventListener("submit", (event) => {
+formProducto?.addEventListener("submit", (event) => {
     event.preventDefault();
 
     // Obtener los detalles del producto del formulario
@@ -55,17 +55,19 @@ formProducto.addEventListener("submit", (event) => {
     };
 
     // Emitir los datos del formulario al servidor
-    socket.emit("nuevo-producto", nuevoProducto);
+    socket.emit("newProduct", nuevoProducto);
 
     // Limpiar los campos del formulario
     formProducto.reset();
 });
 
-const eliminarProducto = (id) => {
-    socket.emit("eliminar-producto", id);
+const deleteProduct = (button) => {
+    const id = button.getAttribute("data-id");
+    console.log(id);
+    socket.emit("deleteProduct", id);
 };
 
-socket.on("todos-los-productos", (productos) => {
+socket.on("allProducts", (productos) => {
     //console.log(`aca estan los productos ${productos}`);
     listaProductos.innerHTML = "";
     productos.forEach((producto) => {
@@ -91,7 +93,7 @@ socket.on("todos-los-productos", (productos) => {
                                     <span>Stock: ${producto.stock}</span>
                                 </div>
                                 <div class="">
-                                    <i class="btn btn-danger bi bi-trash-fill" id="eliminar${producto.id}" onclick="eliminarProducto(${producto.id})">ELIMINAR</i>
+                                    <i class="btn btn-danger bi bi-trash-fill" data-id="${producto._id}" onclick="deleteProduct(this)">ELIMINAR</i>
                                 </div>
                             </div>
                         </div>

@@ -43,8 +43,9 @@ export class MongoDBManager {
     async addElements(elements) {
         this.#setConnection();
         try {
-            const message = await this.model.insertMany(elements);
-            return message;
+            await this.model.insertMany(elements);
+            const allElements = this.getElements();
+            return allElements;
         } catch (error) {
             console.log("Error en insertar elemento en MongoDB", error);
         }
@@ -63,8 +64,11 @@ export class MongoDBManager {
     async deleteElement(id) {
         this.#setConnection();
         try {
-            const response = await this.model.findByIdAndDelete(id);
-            return response;
+            await this.model.findByIdAndDelete(id);
+            console.log(id);
+            const allElements = await this.getElements();
+            console.log(allElements);
+            return allElements;
         } catch (error) {
             console.log("Error en delete de elemento en MongoDB", error);
         }
