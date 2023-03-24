@@ -13,7 +13,7 @@ const routerCart = Router();
 
 routerCart.get("/:cid", async (req, res) => {
     const cart = await cartManager.getElementById(req.params.cid);
-    res.send(JSON.stringify(cart));
+    res.send(JSON.stringify(cart.products));
 });
 
 routerCart.post("/", async (req, res) => {

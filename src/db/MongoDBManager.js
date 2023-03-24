@@ -37,6 +37,7 @@ export class MongoDBManager {
             return element;
         } catch (error) {
             console.log("Error en consulta de elemento en MongoDB", error);
+            return false;
         }
     }
 
