@@ -6,8 +6,8 @@ import { productManager } from "../index.js";
 const routerProduct = Router();
 
 routerProduct.get("/", async (req, res) => {
-    const { limit } = req.query;
-    const products = await productManager.getElements(limit);
+    const { limit, page, sort, filter } = req.query;
+    const products = await productManager.getProducts(limit, page, sort, filter);
     res.send(JSON.stringify(products));
 });
 

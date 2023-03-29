@@ -9,7 +9,7 @@ export class MongoDBManager {
         this.model = mongoose.model(this.collection, this.schema);
     }
 
-    async #setConnection() {
+    async setConnection() {
         try {
             await mongoose.connect(this.#url);
             console.log("MongoDB está conectado");
@@ -19,7 +19,7 @@ export class MongoDBManager {
     }
 
     async getElements() {
-        this.#setConnection();
+        this.setConnection();
         try {
             const elements = await this.model.find();
             //console.log(`dentro de getElements ${typeof elements}`);
@@ -31,7 +31,7 @@ export class MongoDBManager {
     }
 
     async getElementById(id) {
-        this.#setConnection();
+        this.setConnection();
         try {
             const element = await this.model.findById(id);
             return element;
@@ -42,7 +42,7 @@ export class MongoDBManager {
     }
 
     async addElements(elements) {
-        this.#setConnection();
+        this.setConnection();
         try {
             await this.model.insertMany(elements);
             const allElements = this.getElements();
@@ -53,7 +53,7 @@ export class MongoDBManager {
     }
 
     async updateElement(id, info) {
-        this.#setConnection();
+        this.setConnection();
         try {
             await this.model.findByIdAndUpdate(id, info);
             const updatedElement = this.getElementById(id);
@@ -64,7 +64,7 @@ export class MongoDBManager {
     }
 
     async deleteElement(id) {
-        this.#setConnection();
+        this.setConnection();
         try {
             await this.model.findByIdAndDelete(id);
             console.log(id);

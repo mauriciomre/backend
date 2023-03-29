@@ -1,8 +1,7 @@
 import { MongoDBManager } from "../../../db/MongoDBManager.js";
 const messageSchema = {
     name: String,
-    //email: { type: String, unique: true },
-    email: String,
+    email: { type: String, unique: true },
     message: String,
 };
 
