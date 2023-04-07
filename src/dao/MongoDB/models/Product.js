@@ -71,7 +71,6 @@ export class MongoDBProductModel extends MongoDBManager {
                 page: pageQ,
                 sort: sortQ,
             });
-            //FALTA FILTER
             return productos;
         } catch (error) {
             console.log(`Error al obtener productos ${error}`);

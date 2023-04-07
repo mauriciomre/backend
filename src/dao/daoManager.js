@@ -23,3 +23,12 @@ export const getCartsManager = async () => {
 
     return modelCart;
 };
+
+export const getUsersManager = async () => {
+    const modelCart =
+        process.env.SELECTEDBDD == 1
+            ? await import("./MongoDB/models/User.js")
+            : await import("./Postgresql/models/User.js");
+
+    return modelCart;
+};
