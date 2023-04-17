@@ -11,7 +11,6 @@ export const getProductsManager = async () => {
         process.env.SELECTEDBDD == 1
             ? await import("./MongoDB/models/Product.js")
             : await import("./Postgresql/models/Product.js");
-
     return modelProduct;
 };
 
@@ -20,7 +19,6 @@ export const getCartsManager = async () => {
         process.env.SELECTEDBDD == 1
             ? await import("./MongoDB/models/Cart.js")
             : await import("./Postgresql/models/Cart.js");
-
     return modelCart;
 };
 
@@ -29,6 +27,5 @@ export const getUsersManager = async () => {
         process.env.SELECTEDBDD == 1
             ? await import("./MongoDB/models/User.js")
             : await import("./Postgresql/models/User.js");
-
     return modelCart;
 };

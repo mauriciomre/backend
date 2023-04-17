@@ -1,29 +1,19 @@
-import dotenv from "dotenv";
-dotenv.config();
+import "dotenv/config";
 import express from "express";
-import routerProducts from "./routes/product.js";
-import routerCarts from "./routes/carts.js";
-import routerHbs from "./routes/handlebars.js";
-import { fileURLToPath } from "url";
+import session from "express-session";
+import cookieParser from "cookie-parser";
+import MongoStore from "connect-mongo";
+import passport from "passport";
+import router from "./routes/routes.js";
 import { __dirname } from "./path.js";
 import { engine } from "express-handlebars";
+import initializePassport from "./config/passport.js";
+
 import * as path from "path";
 import { Server } from "socket.io";
-import ProductManager from "./controllers/ProductManager.js";
 import { getMessagesManager } from "./dao/daoManager.js";
-import { getProductsManager } from "./dao/daoManager.js";
-import { getCartsManager } from "./dao/daoManager.js";
-import { getUsersManager } from "./dao/daoManager.js";
-//import { MongoDBUserModel } from "./dao/MongoDB/models/User.js";
-//import multer from "multer";
-//import { create } from "express-handlebars";
 
-//const productManager = new ProductManager("src/models/products.json");
-
-export const productManager = new (await getProductsManager()).MongoDBProductModel();
 export const messageManager = new (await getMessagesManager()).MongoDBMessageModel();
-export const cartManager = new (await getCartsManager()).MongoDBCartModel();
-export const userManager = new (await getUsersManager()).MongoDBUserModel();
 
 const app = express();
 const PORT = 8080;
@@ -36,19 +26,39 @@ const server = app.listen(PORT, () => {
 export const io = new Server(server);
 
 //Middlewares
+app.use(cookieParser(process.env.SIGNED_COOKIE));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+app.use(
+    session({
+        store: MongoStore.create({
+            mongoUrl: process.env.MONGODBURL,
+            mongoOption: { useNewUrlParser: true, useUnifiedTopology: true },
+            ttl: 2100,
+        }),
+        secret: process.env.SESSION_SECRET,
+        resave: true,
+        rolling: true,
+        saveUninitialized: false,
+        cookie: { maxAge: 1000 * 60 * 10 },
+    })
+);
+
+//Routes
+app.use("/", router);
+
+//Passport
+initializePassport();
+app.use(passport.initialize());
+app.use(passport.session());
+
+//Handlebars
 app.engine("handlebars", engine());
 app.set("view engine", "handlebars");
 app.set("views", path.resolve(__dirname, "./views"));
 
-//Routes
-app.use("/api/products", routerProducts);
-app.use("/api/carts", routerCarts);
-app.use("/api/users", routerUser);
-app.use("/", express.static(__dirname + "/public"));
-app.use("/", routerHbs);
-
+//Socket
 io.on("connection", async (socket) => {
     console.log("Un cliente se ha conectado");
 
@@ -73,7 +83,6 @@ io.on("connection", async (socket) => {
     });
 
     socket.on("deleteProduct", (id) => {
-        //const id = mongoose.Types.ObjectId(idString);
         productManager.deleteElement(id).then((products) => {
             io.emit("allProducts", products);
         });

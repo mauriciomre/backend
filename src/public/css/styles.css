@@ -1,1 +1,7 @@
+.minHeight {
+    min-height: 800px;
+}
 
+a {
+    text-decoration: none;
+}

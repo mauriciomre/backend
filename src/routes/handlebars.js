@@ -1,9 +1,7 @@
 import { Router } from "express";
-//import ProductManager from "../controllers/ProductManager.js";
-import { productManager } from "../index.js";
+import { productManager } from "../controllers/product.controller.js";
 import { messageManager } from "../index.js";
 
-//const productManager = new ProductManager("src/models/products.json");
 const routerHbs = Router();
 
 routerHbs.get("/", async (req, res) => {

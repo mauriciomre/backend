@@ -1,0 +1,53 @@
+<div class="minHeight">
+
+    <section>
+        <div class="container py-5">
+            <div class="row d-flex justify-content-center">
+                <div class="col-md-8 col-lg-6 col-xl-4">
+
+                    <div class="card" id="chat1" style="border-radius: 15px;">
+                        <div class="card-body">
+                            <h3 class="card-title text-center mb-4">Ingresá tus datos</h3>
+                            <form method="post" action="/api/user/register">
+
+                                <!-- Name input -->
+                                <div class="form-outline mb-3">
+                                    <input name="first_name" type="text" id="first_name" class="form-control" />
+                                    <label class="form-label" for="form2Example1">Nombre</label>
+                                </div>
+
+                                <!-- Lastname input -->
+                                <div class="form-outline mb-3">
+                                    <input name="last_name" type="text" id="last_name" class="form-control" />
+                                    <label class="form-label" for="form2Example1">Apellido</label>
+                                </div>
+
+                                <!-- Email input -->
+                                <div class="form-outline mb-3">
+                                    <input name="email" type="email" id="email" class="form-control" />
+                                    <label class="form-label" for="form2Example1">Correo electrónico</label>
+                                </div>
+
+                                <!-- Password input -->
+                                <div class="form-outline mb-3">
+                                    <input name="password" type="password" id="password" class="form-control" />
+                                    <label class="form-label" for="form2Example2">Contraseña</label>
+                                </div>
+
+                                <!-- Submit button -->
+                                <div class="d-grid">
+                                    <button type="submit" class="btn btn-primary mb-4"
+                                        onclick="login({email: email.value, password: password.value})">Registrate</button>
+                                </div>
+
+                            </form>
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </section>
+</div>

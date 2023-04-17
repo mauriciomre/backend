@@ -1,4 +1,4 @@
-import { MongoDBManager } from "../../../db/MongoDBManager.js";
+import { MongoDBManager } from "../db/MongoDBManager.js";
 import { Schema } from "mongoose";
 
 const userSchema = new Schema({
@@ -29,7 +29,7 @@ const userSchema = new Schema({
     },
     id_cart: {
         type: Schema.Types.ObjectId,
-        ref: carts,
+        ref: "carts",
     },
 });
 

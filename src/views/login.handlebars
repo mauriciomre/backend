@@ -1,38 +1,58 @@
-<section style="background-color: #eee;">
-    <div class="container py-5">
+<div class="minHeight">
 
-        <div class="row d-flex justify-content-center">
-            <div class="col-md-8 col-lg-6 col-xl-4">
+    <section>
+        <div class="container py-5">
+            <div class="row d-flex justify-content-center">
+                <div class="col-md-8 col-lg-6 col-xl-4">
 
-                <div class="card" id="chat1" style="border-radius: 15px;">
-                    <div class="card-body">
+                    <div class="card" id="chat1" style="border-radius: 15px;">
+                        <div class="card-body">
+                            <h3 class="card-title text-center mb-4">Iniciar sesión</h3>
+                            <form method="post" action="/api/session/login">
+                                <!-- Email input -->
+                                <div class="form-outline mb-4">
+                                    <input name="email" type="email" id="email" class="form-control" />
+                                    <label class="form-label" for="form2Example1">Correo electrónico</label>
+                                </div>
 
-                        <form>
-                            <!-- Email input -->
-                            <div class="form-outline mb-4">
-                                <input type="email" id="email" class="form-control" />
-                                <label class="form-label" for="form2Example1">Email address</label>
-                            </div>
+                                <!-- Password input -->
+                                <div class="form-outline mb-4">
+                                    <input name="password" type="password" id="password" class="form-control" />
+                                    <label class="form-label" for="form2Example2">Contraseña</label>
+                                </div>
 
-                            <!-- Password input -->
-                            <div class="form-outline mb-4">
-                                <input type="password" id="password" class="form-control" />
-                                <label class="form-label" for="form2Example2">Password</label>
-                            </div>
+                                <!-- Submit button -->
+                                <div class="d-grid">
+                                    <button type="submit" class="btn btn-primary mb-4"
+                                        onclick="login({email: email.value, password: password.value})">Ingresar</button>
+                                </div>
 
-                            <!-- Submit button -->
-                            <div class="d-grid">
-                                <button type="button" class="btn btn-primary mb-4"
-                                    onclick="login({email: email.value, password: password.value})">Login</button>
-                            </div>
+                                <div class="text-center">
+                                    <p>No estas registrado? <a class="badge text-bg-primary"
+                                            href="/api/session/register">Registrate
+                                            aquí</a></p>
+                                    <p>o podes ingresar con:</p>
+                                    <button type="button" class="btn btn-primary mx-2">
+                                        <i class="bi bi-facebook"></i>
+                                    </button>
 
-                        </form>
+                                    <button type="button" class="btn btn-danger mx-2">
+                                        <i class="bi bi-google"></i>
+                                    </button>
 
+                                    <button type="button" class="btn btn-dark mx-2">
+                                        <i class="bi bi-github"></i>
+                                    </button>
+                                </div>
+
+                            </form>
+
+                        </div>
                     </div>
+
                 </div>
-
             </div>
-        </div>
 
-    </div>
-</section>
+        </div>
+    </section>
+</div>
