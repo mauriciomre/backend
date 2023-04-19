@@ -5,6 +5,7 @@ import { destroySession, getSession, testLogin } from "../controllers/session.co
 const routerSession = Router();
 
 routerSession.get("/login", getSession);
+routerSession.get("/", getSession);
 
 routerSession.post("/login", passport.authenticate("login"), testLogin);
 routerSession.get("/logout", destroySession);
