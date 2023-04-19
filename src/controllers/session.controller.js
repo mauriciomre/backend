@@ -19,7 +19,6 @@ export const testLogin = async (req, res) => {
         req.session.user = {
             first_name: req.user.first_name,
             last_name: req.user.last_name,
-            age: req.user.age,
             email: req.user.email,
         };
 
@@ -32,10 +31,11 @@ export const testLogin = async (req, res) => {
 };
 
 export const destroySession = (req, res) => {
-    try {
+    console.log(req.session.login);
+    if (req.session.login) {
         req.session.destroy();
-        return res.status(200).redirect("/api/session");
-    } catch (err) {
-        res.status(500).send("Error al cerrar sesion", err);
     }
+    res.redirect("/product", 200, {
+        divMessage: "Hola",
+    });
 };
