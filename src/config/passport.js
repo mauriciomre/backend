@@ -13,7 +13,7 @@ const initializePassport = () => {
         new LocalStrategy(
             { passReqToCallback: true, usernameField: "email" },
             async (req, username, password, done) => {
-                const { first_name, last_name, email, age } = req.body;
+                const { first_name, last_name, email } = req.body;
                 try {
                     const user = await userManager.getElementByEmail(username);
                     if (user) {
@@ -29,25 +29,14 @@ const initializePassport = () => {
                             password: passwordHash,
                         },
                     ]);
-                    console.log(userCreated);
-                    return done(null, userCreated);
+                    //console.log(`USUARIO CREADO ${userCreated}`);
+                    return done(null, userCreated[0]);
                 } catch (error) {
                     return done(error);
                 }
             }
         )
     );
-
-    //Inicializar la session del user
-    passport.serializeUser((user, done) => {
-        done(null, user._id);
-    });
-
-    //Eliminar la session del user
-    passport.deserializeUser(async (id, done) => {
-        const user = userManager.getElementById(id);
-        done(null, user);
-    });
 
     passport.use(
         "login",
@@ -70,6 +59,17 @@ const initializePassport = () => {
             }
         })
     );
+
+    //Inicializar la session del user
+    passport.serializeUser((user, done) => {
+        done(null, user._id);
+    });
+
+    //Eliminar la session del user
+    passport.deserializeUser(async (id, done) => {
+        const user = userManager.getElementById(id);
+        done(null, user);
+    });
 };
 
 export default initializePassport;

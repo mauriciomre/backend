@@ -1,8 +1,9 @@
 export const getSession = (req, res) => {
-    console.log(req.session.login);
-    if (req.session.login) {
+    //req.session.destroy();
+    //console.log(`session ${req.session}`);
+    if (req.session.passport?.user) {
         //Si la sesion esta activa en la BDD
-        res.redirect("/product", 200, {
+        res.redirect("/api/product", 200, {
             message: "Bienvenido/a a mi tienda",
         });
     }
@@ -21,7 +22,6 @@ export const testLogin = async (req, res) => {
             last_name: req.user.last_name,
             email: req.user.email,
         };
-
         res.status(200).send({ status: "success", payload: req.user });
     } catch (error) {
         res.status(500).send.json({
@@ -31,11 +31,7 @@ export const testLogin = async (req, res) => {
 };
 
 export const destroySession = (req, res) => {
-    console.log(req.session.login);
-    if (req.session.login) {
-        req.session.destroy();
-    }
-    res.redirect("/product", 200, {
-        divMessage: "Hola",
-    });
+    req.session.destroy();
+    //console.log(`DESTROY ${req.session}`);
+    return res.status(200).redirect("/api/session");
 };

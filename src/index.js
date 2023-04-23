@@ -38,7 +38,7 @@ app.use(
             ttl: 2100,
         }),
         secret: process.env.SESSION_SECRET,
-        resave: true,
+        resave: false,
         rolling: true,
         saveUninitialized: false,
         cookie: { maxAge: 1000 * 60 * 10 },

@@ -44,9 +44,7 @@ export class MongoDBManager {
     async addElements(elements) {
         this.setConnection();
         try {
-            await this.model.insertMany(elements);
-            const allElements = this.getElements();
-            return allElements;
+            return await this.model.insertMany(elements);
         } catch (error) {
             console.log("Error en insertar elemento en MongoDB", error);
         }
