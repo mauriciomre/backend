@@ -1,0 +1,22 @@
+<nav class="navbar navbar-expand-md bg-body-tertiary">
+    <div class="container-fluid">
+        {{#if user}}
+        <a class="navbar-brand">Bienvenido/a, {{user.first_name}}!</a>
+        <button class="btn btn-outline-danger btn-logout" onclick="logout()">Cerrar sesión</button>
+        {{else}}
+        <button class="btn btn-outline-primary btn-login" onclick="login()">Iniciar sesión</button>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarScroll"
+            aria-controls="navbarScroll" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarScroll">
+            <ul class="navbar-nav me-auto my-2 my-lg-0 mx-2 navbar-nav-scroll" style="--bs-scroll-height: 100px;">
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="/api/product">Productos</a>
+                </li>
+            </ul>
+        </div>
+        {{/if}}
+
+    </div>
+</nav>

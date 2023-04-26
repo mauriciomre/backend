@@ -1,12 +1,13 @@
 const socket = io();
 
 // LOGIN
-const login = (user) => {
-    console.log(`Intento de login con los siguientes datos:
-    email: ${user.email}
-    password: ${user.password}`);
+const login = () => {
+    window.location.href = "/api/session/login";
+};
 
-    socket.emit("tryLogin", user);
+// LOGOUT
+const logout = () => {
+    window.location.href = "/api/session/logout";
 };
 
 // CHAT

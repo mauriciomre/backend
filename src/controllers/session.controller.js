@@ -22,9 +22,9 @@ export const testLogin = async (req, res) => {
             last_name: req.user.last_name,
             email: req.user.email,
         };
-        res.status(200).send({ status: "success", payload: req.user });
+        res.redirect("/api/product", 200, { status: "success", payload: req.user });
     } catch (error) {
-        res.status(500).send.json({
+        res.status(500).send({
             message: error.message,
         });
     }

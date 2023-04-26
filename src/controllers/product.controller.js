@@ -4,8 +4,10 @@ export const productManager = new (await getProductsManager()).MongoDBProductMod
 
 export const getProducts = async (req, res) => {
     const { limit, page, sort, category } = req.query;
-    const products = await productManager.getProducts(limit, page, sort, category);
-    res.send(JSON.stringify(products));
+    let products = await productManager.getProducts(limit, page, sort, category);
+    products = products.docs.map((product) => product.toJSON());
+    //console.log(req.session.user);
+    res.render("products", { products, user: req.session.user });
 };
 
 export const getProduct = async (req, res) => {
