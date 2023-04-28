@@ -32,6 +32,7 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use(
     session({
+        name: "mawe-session-cookie",
         store: MongoStore.create({
             mongoUrl: process.env.MONGODBURL,
             mongoOption: { useNewUrlParser: true, useUnifiedTopology: true },

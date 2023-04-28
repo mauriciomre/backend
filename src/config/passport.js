@@ -68,11 +68,12 @@ const initializePassport = () => {
                 clientID: process.env.GITHUB_CLIENT_ID,
                 clientSecret: process.env.GITHUB_CLIENT_SECRET,
                 callbackURL: process.env.GITHUB_CALLBACK_URL,
+                scope: ["user:email"],
             },
             async (accessToken, refreshToken, profile, done) => {
                 try {
-                    console.log(profile._json.login);
-                    const user = await userManager.getElementByEmail(profile._json.email);
+                    console.log(profile.emails[0].value);
+                    const user = await userManager.getElementByEmail(profile.emails[0].value);
                     //console.log(user);
                     if (user) {
                         //Si existe user en la bdd
@@ -82,7 +83,7 @@ const initializePassport = () => {
                             {
                                 first_name: profile._json.login,
                                 last_name: " ", //Por que github no posee nombre y apellido
-                                email: profile._json.email,
+                                email: profile.emails[0].value,
                                 password: " ", //No puedo asignar una contraseña por que github ya me ofrece una
                             },
                         ]);

@@ -31,6 +31,7 @@ export const testLogin = async (req, res) => {
 };
 
 export const destroySession = (req, res) => {
+    console.log(req.session);
     req.session.destroy();
     //console.log(`DESTROY ${req.session}`);
     return res.status(200).redirect("/api/session");
