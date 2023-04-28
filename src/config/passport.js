@@ -1,5 +1,6 @@
 import local from "passport-local";
 import passport from "passport";
+import GitHubStrategy from "passport-github2";
 import { userManager } from "../controllers/user.controller.js";
 import { createHash, validatePassword } from "../utils/bcrypt.js";
 
@@ -58,6 +59,40 @@ const initializePassport = () => {
                 return done(error);
             }
         })
+    );
+
+    passport.use(
+        "github",
+        new GitHubStrategy(
+            {
+                clientID: process.env.GITHUB_CLIENT_ID,
+                clientSecret: process.env.GITHUB_CLIENT_SECRET,
+                callbackURL: process.env.GITHUB_CALLBACK_URL,
+            },
+            async (accessToken, refreshToken, profile, done) => {
+                try {
+                    console.log(profile._json.login);
+                    const user = await userManager.getElementByEmail(profile._json.email);
+                    //console.log(user);
+                    if (user) {
+                        //Si existe user en la bdd
+                        done(null, user);
+                    } else {
+                        const userCreated = await userManager.addElements([
+                            {
+                                first_name: profile._json.login,
+                                last_name: " ", //Por que github no posee nombre y apellido
+                                email: profile._json.email,
+                                password: " ", //No puedo asignar una contraseña por que github ya me ofrece una
+                            },
+                        ]);
+                        done(null, userCreated);
+                    }
+                } catch (error) {
+                    return done(error);
+                }
+            }
+        )
     );
 
     //Inicializar la session del user
