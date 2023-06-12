@@ -1,0 +1,204 @@
+paths:
+    /api/cart:
+        get:
+            summary: "Obtener todos los carritos"
+            tags:
+                - Cart
+            responses:
+                "200":
+                    description: "Carritos obtenidos correctamente"
+                "500":
+                    description: "Error al obtener los carritos"
+        post:
+            summary: "Agregar un nuevo carrito"
+            tags:
+                - Cart
+            responses:
+                "200":
+                    description: "Carrito agregado correctamente"
+                "500":
+                    description: "Error al agregar carrito"
+    /api/cart/{cid}:
+        get:
+            summary: "Obtener todos los productos de un carrito por su ID"
+            tags:
+                - Cart
+            parameters:
+                - name: cid
+                  in: path
+                  required: true
+                  description: ID del carrito solicitado
+                  schema:
+                      $type: String
+            responses:
+                "200":
+                    description: "Productos obtenidos correctamente"
+                    content:
+                        application/json:
+                            schema:
+                                items:
+                                    $ref: "#components/schemas/Cart"
+                "500":
+                    description: "Error al obtener los productos del carrito"
+        put:
+            summary: "Actualizar un carrito por su ID"
+            tags:
+                - Cart
+            responses:
+                "200":
+                    description: "Carrito actualizado correctamente"
+                "500":
+                    description: "Error al actualizar carrito"
+        delete:
+            summary: "Eliminar todos los productos de un carrito"
+            tags:
+                - Cart
+            responses:
+                "200":
+                    description: "Productos eliminados del carrito correctamente"
+                "500":
+                    description: "Error al eliminar productos del carrito"
+    /api/cart/{cid}/products/{pid}:
+        post:
+            summary: "Agregar un producto a un carrito determinado por ID"
+            tags:
+                - Cart
+            responses:
+                "200":
+                    description: "Producto agregado correctamente al carrito"
+                "500":
+                    description: "Error al agregar producto al carrito"
+        delete:
+            summary: "Eliminar un producto de un carrito determinado por ID"
+            tags:
+                - Cart
+            responses:
+                "200":
+                    description: "Producto eliminado del carrito correctamente"
+                "500":
+                    description: "Error al eliminar producto del carrito"
+        put:
+            summary: "Actualizar cantidad del producto en un carrito determinado por su ID"
+            tags:
+                - Cart
+            responses:
+                "200":
+                    description: "Cantidad del producto en el carrito actualizada correctamente"
+                "500":
+                    description: "Error al actualizar cantidad del producto en el carrito"
+    /api/cart/{cid}/purchase:
+        post:
+            summary: "Finalizar proceso de compra"
+            tags:
+                - Cart
+            responses:
+                "200":
+                    description: "Compra finalizada correctamente"
+                "500":
+                    description: "Error al finalizar compra"
+
+components:
+    schemas:
+        Cart:
+            type: object
+            properties:
+                _id:
+                    type: string
+                    description: Id autogenerado de mongo
+                products:
+                    type: array
+                    description: Array de productos
+                    items:
+                        type: object
+                        properties:
+                            product:
+                                type: object
+                                properties:
+                                    _id:
+                                        type: string
+                                    title:
+                                        type: string
+                                    description:
+                                        type: string
+                                    code:
+                                        type: string
+                                    price:
+                                        type: number
+                                    status:
+                                        type: boolean
+                                    stock:
+                                        type: integer
+                                    category:
+                                        type: string
+                                    thumbnails:
+                                        type: array
+                                        items:
+                                            type: string
+                                    __v:
+                                        type: integer
+                                required:
+                                    - _id
+                                    - title
+                                    - description
+                                    - code
+                                    - price
+                                    - status
+                                    - stock
+                                    - category
+                                    - thumbnails
+                                    - __v
+                            quantity:
+                                type: integer
+                            _id:
+                                type: string
+                        required:
+                            - product
+                            - quantity
+                            - _id
+            example:
+                _id: "642a2582a817e0273d3eff03"
+                products:
+                    - product:
+                          _id: "6428a1571a2fec26afe30ecc"
+                          title: "celular"
+                          description: "esto es un celular"
+                          code: "3652214"
+                          price: 70000
+                          status: true
+                          stock: 35
+                          category: "electronica"
+                          thumbnails: []
+                          __v: 0
+                      quantity: 2
+                      _id: "642a2a413e66b848fa193c50"
+                    - product: null
+                      quantity: 2
+                      _id: "642a2a303e66b848fa193c39"
+                    - product:
+                          _id: "6428a1931a2fec26afe30ed1"
+                          title: "televisor"
+                          description: "esto es un tv modificado con update"
+                          code: "25410154"
+                          price: 150000
+                          status: true
+                          stock: 60
+                          category: "electronica"
+                          thumbnails: []
+                          __v: 0
+                      quantity: 2
+                      _id: "642a2a273e66b848fa193c28"
+                    - product:
+                          status: true
+                          thumbnails: []
+                          _id: "64238828d99f9b770a7e7a70"
+                          title: "lucia"
+                          category: "otros"
+                          description: "hola Mauricio"
+                          price: 500
+                          thumbnail: "foto.png"
+                          code: "CARME123"
+                          stock: 2
+                          __v: 0
+                      quantity: 4
+                      _id: "642a2a183e66b848fa193c11"
+                __v: 0

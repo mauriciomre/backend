@@ -7,12 +7,6 @@ paths:
             responses:
                 "200":
                     description: "Productos obtenidos correctamente"
-                    content:
-                        application/json:
-                            schema:
-                                type: array
-                                items:
-                                    $ref: "#components/schemas/Product"
                 "500":
                     description: "Error al obtener los productos"
         post:
@@ -30,12 +24,12 @@ paths:
             tags:
                 - Product
             parameters:
-            -   name: pid
-                in: path
-                required: true
-                description: Id del producto solicitado
-                schema:
-                    $type: String
+                - name: pid
+                  in: path
+                  required: true
+                  description: Id del producto solicitado
+                  schema:
+                      $type: String
             responses:
                 "200":
                     description: "Producto obtenido correctamente"
@@ -55,7 +49,6 @@ paths:
                     description: "Producto actualizado correctamente"
                 "500":
                     description: "Error al actualizar producto"
-            /api/product/{pid}:
         delete:
             summary: "Eliminar un producto"
             tags:
