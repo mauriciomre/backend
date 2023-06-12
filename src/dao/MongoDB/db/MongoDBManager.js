@@ -22,8 +22,6 @@ export class MongoDBManager {
         this.setConnection();
         try {
             const elements = await this.model.find();
-            //console.log(`dentro de getElements ${typeof elements}`);
-            //console.log(elements);
             return elements;
         } catch (error) {
             console.log("Error en consulta de todos los elementos en MongoDB", error);

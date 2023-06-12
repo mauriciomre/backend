@@ -1,0 +1,110 @@
+paths:
+    /api/product:
+        get:
+            summary: "Obtener todos los productos"
+            tags:
+                - Product
+            responses:
+                "200":
+                    description: "Productos obtenidos correctamente"
+                    content:
+                        application/json:
+                            schema:
+                                type: array
+                                items:
+                                    $ref: "#components/schemas/Product"
+                "500":
+                    description: "Error al obtener los productos"
+        post:
+            summary: "Agregar un nuevo producto"
+            tags:
+                - Product
+            responses:
+                "200":
+                    description: "Producto agregado correctamente"
+                "500":
+                    description: "Error al agregar producto"
+    /api/product/{pid}:
+        get:
+            summary: "Obtener un producto por su ID"
+            tags:
+                - Product
+            parameters:
+            -   name: pid
+                in: path
+                required: true
+                description: Id del producto solicitado
+                schema:
+                    $type: String
+            responses:
+                "200":
+                    description: "Producto obtenido correctamente"
+                    content:
+                        application/json:
+                            schema:
+                                items:
+                                    $ref: "#components/schemas/Product"
+                "500":
+                    description: "Error al obtener el producto"
+        put:
+            summary: "Actualizar un producto"
+            tags:
+                - Product
+            responses:
+                "200":
+                    description: "Producto actualizado correctamente"
+                "500":
+                    description: "Error al actualizar producto"
+            /api/product/{pid}:
+        delete:
+            summary: "Eliminar un producto"
+            tags:
+                - Product
+            responses:
+                "200":
+                    description: "Producto eliminado correctamente"
+                "500":
+                    description: "Error al eliminar producto"
+
+components:
+    schemas:
+        Product:
+            type: object
+            properties:
+                _id:
+                    type: ObjectId
+                    description: Id autogenerado de mongo
+                title:
+                    type: String
+                    description: Nombre del producto
+                description:
+                    type: String
+                    description: Descripcion del producto
+                code:
+                    type: String
+                    description: Código del producto
+                price:
+                    type: String
+                    description: Precio del producto
+                status:
+                    type: Boolean
+                    description: Estado del producto
+                stock:
+                    type: Number
+                    description: Stock disponible del producto
+                category:
+                    type: String
+                    description: Categoria del producto
+                thumbnails:
+                    type: Array
+                    description: Array de imagenes
+            example:
+                _id: new ObjectId("642b82ebe59fe58b5dad8515")
+                title: "Aca Otro Producto de Lucia"
+                description: "Hola Mauricio 2"
+                code: "291Cor"
+                price: 65222
+                status: true
+                stock: 2
+                category: "otros"
+                thumbnails: []

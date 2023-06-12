@@ -49,3 +49,10 @@ export const updateQuantityCart = async (req, res) => {
     let updatedCart = await cartManager.updateQuantityCart(req.params.cid, req.params.pid, req.body);
     res.send(updatedCart);
 };
+
+export const cartStockVerify = async (req, res) => {
+    /*  
+    Si el producto tiene suficiente stock para la cantidad indicada en el producto del carrito, entonces restarlo del stock del producto y continuar.
+    Si el producto no tiene suficiente stock para la cantidad indicada en el producto del carrito, entonces no agregar el producto al proceso de compra. 
+*/
+};

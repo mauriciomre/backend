@@ -2,10 +2,9 @@ export const getSession = (req, res) => {
     //req.session.destroy();
     //console.log(`session ${req.session}`);
     if (req.session.passport?.user) {
+        console.log(req.session);
         //Si la sesion esta activa en la BDD
-        res.redirect("/api/product", 200, {
-            message: "Bienvenido/a a mi tienda",
-        });
+        res.redirect("/api/product");
     }
     //No esta activa la sesion
     res.render("login", { message: "Ingrese su email y contraseña" });

@@ -6,8 +6,8 @@ export const getProducts = async (req, res) => {
     const { limit, page, sort, category } = req.query;
     let products = await productManager.getProducts(limit, page, sort, category);
     products = products.docs.map((product) => product.toJSON());
-    //console.log(req.session.user);
     res.render("products", { products, user: req.session.user });
+    console.log(products);
 };
 
 export const getProduct = async (req, res) => {

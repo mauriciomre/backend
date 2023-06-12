@@ -8,6 +8,7 @@ import {
     deleteAllFromCart,
     updateCart,
     updateQuantityCart,
+    cartStockVerify,
 } from "../controllers/cart.controller.js";
 
 const routerCart = Router();
@@ -35,5 +36,8 @@ routerCart.put("/:cid", updateCart);
 
 // ACTUALIZAR QUANTITY DEL PRODUCTO (PID) EN EL CARRITO (CID)
 routerCart.put("/:cid/products/:pid", updateQuantityCart);
+
+// FINALIZAR COMPRA
+routerCart.post("/:cid/purchase", cartStockVerify);
 
 export default routerCart;

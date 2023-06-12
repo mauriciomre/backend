@@ -1,14 +1,13 @@
-import { MongoDBManager } from "../db/MongoDBManager.js";
 import { Schema } from "mongoose";
 
 const userSchema = new Schema({
     first_name: {
         type: String,
-        requered: true,
+        required: true,
     },
     last_name: {
         type: String,
-        requered: true,
+        required: true,
     },
     email: {
         type: String,
@@ -17,7 +16,7 @@ const userSchema = new Schema({
     },
     age: {
         type: Number,
-        requered: true,
+        required: true,
     },
     rol: {
         type: String,
@@ -25,25 +24,13 @@ const userSchema = new Schema({
     },
     password: {
         type: String,
-        requered: true,
+        required: true,
     },
     id_cart: {
         type: Schema.Types.ObjectId,
         ref: "carts",
+        required: true,
     },
 });
 
-export class MongoDBUserModel extends MongoDBManager {
-    constructor() {
-        super(process.env.MONGODBURL, "users", userSchema);
-    }
-
-    async getElementByEmail(email) {
-        super.setConnection();
-        try {
-            return await this.model.findOne({ email: email });
-        } catch (error) {
-            return error;
-        }
-    }
-}
+export default userSchema;

@@ -9,7 +9,7 @@ export const getMessagesManager = async () => {
 export const getProductsManager = async () => {
     const modelProduct =
         process.env.SELECTEDBDD == 1
-            ? await import("./MongoDB/models/Product.js")
+            ? await import("./MongoDB/services/productServices.js")
             : await import("./Postgresql/models/Product.js");
     return modelProduct;
 };
@@ -17,15 +17,15 @@ export const getProductsManager = async () => {
 export const getCartsManager = async () => {
     const modelCart =
         process.env.SELECTEDBDD == 1
-            ? await import("./MongoDB/models/Cart.js")
+            ? await import("./MongoDB/services/cartServices.js")
             : await import("./Postgresql/models/Cart.js");
     return modelCart;
 };
 
 export const getUsersManager = async () => {
-    const modelCart =
+    const modelUser =
         process.env.SELECTEDBDD == 1
-            ? await import("./MongoDB/models/User.js")
+            ? await import("./MongoDB/services/userServices.js")
             : await import("./Postgresql/models/User.js");
-    return modelCart;
+    return modelUser;
 };

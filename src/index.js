@@ -12,6 +12,8 @@ import initializePassport from "./config/passport.js";
 import * as path from "path";
 import { Server } from "socket.io";
 import { getMessagesManager } from "./dao/daoManager.js";
+import swaggerJSDoc from "swagger-jsdoc";
+import swaggerUiExpress from "swagger-ui-express";
 
 export const messageManager = new (await getMessagesManager()).MongoDBMessageModel();
 
@@ -20,13 +22,30 @@ const PORT = 8080;
 
 const server = app.listen(PORT, () => {
     console.log(`Mi nuevo servidor en el puerto ${PORT}`);
-    console.log(path.resolve(__dirname, "./views"));
+    // console.log(path.resolve(__dirname, "./views"));
 });
+
+console.log(__dirname);
 
 export const io = new Server(server);
 
+const swaggerOption = {
+    definition: {
+        openapi: "3.0.0",
+        info: {
+            title: "Doc de mi aplicacion",
+            description: "Descripcion del proyecto",
+        },
+    },
+    apis: [`${__dirname}/docs/**/*.yaml`],
+};
+
+const specs = swaggerJSDoc(swaggerOption);
+
 //Middlewares
-app.use(cookieParser(process.env.SIGNED_COOKIE));
+app.use("/apidocs", swaggerUiExpress.serve, swaggerUiExpress.setup(specs));
+
+app.use(cookieParser(process.env.PRIVATE_KEY_JWT));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
@@ -48,6 +67,11 @@ app.use(
 
 //Routes
 app.use("/", router);
+
+app.get("/", (req, res) => {
+    req.logger.warn("Alerta!");
+    res.send({ message: "Test logger" });
+});
 
 //Passport
 initializePassport();
